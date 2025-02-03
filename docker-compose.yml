@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  ip-geolocation:
+    build: .
+    ports:
+      - "3500:3500"
+    environment:
+      NODE_ENV: production 
