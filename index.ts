@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import { Reader } from "@maxmind/geoip2-node";
-import type { City } from "@maxmind/geoip2-node";
+import type { City, SubdivisionsRecord } from "@maxmind/geoip2-node";
 import { readFile } from "fs/promises";
 import path from "path";
 
@@ -16,6 +16,7 @@ interface LocationResponse {
   longitude?: number;
   timezone?: string;
   error?: string;
+  subdivisions?: SubdivisionsRecord[];
 }
 
 let reader: Reader;
@@ -33,6 +34,7 @@ async function loadDatabase(dbPath: string): Promise<void> {
 
 // Utility function to extract response data
 function extractLocationData(response: City): LocationResponse {
+  console.info(JSON.stringify(response, null, 2));
   return {
     city: response.city?.names?.en,
     country: response.country?.names?.en,
@@ -40,6 +42,7 @@ function extractLocationData(response: City): LocationResponse {
     latitude: response.location?.latitude,
     longitude: response.location?.longitude,
     timezone: response.location?.timeZone,
+    subdivisions: response.subdivisions,
   };
 }
 
