@@ -7,3 +7,8 @@ services:
       - "3500:3500"
     environment:
       NODE_ENV: production 
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
